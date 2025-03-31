@@ -43,6 +43,20 @@ namespace Maui.eCommerce.ViewModels
             }
         }
 
+        public int? Price
+        {
+            get
+            {
+                return Model?.Price;
+            }
+            set
+            {
+                if (Model != null && Model.Price != value)
+                {
+                    Model.Price = value ?? 0;
+                }
+            }
+        }
         public Item? Model { get; set; }
 
         public void AddOrUpdate()

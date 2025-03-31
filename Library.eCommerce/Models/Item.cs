@@ -16,6 +16,8 @@ namespace Library.eCommerce.Models
         public ProductDTO Product { get; set; }
         public int? Quantity { get; set; }
 
+        public int Price { get; set; } 
+
         public ICommand? AddCommand { get; set; }
 
         public override string ToString()
@@ -26,7 +28,7 @@ namespace Library.eCommerce.Models
         public string Display { 
             get
             {
-                return $"{Product?.Display ?? string.Empty} {Quantity}";
+                return $"{Product?.Display ?? string.Empty} x{Quantity} ${Price}";
             }
         }
 
@@ -48,6 +50,7 @@ namespace Library.eCommerce.Models
             Product = new ProductDTO(i.Product);
             Quantity = i.Quantity;
             Id = i.Id;
+            Price = i.Price;
 
             AddCommand = new Command(DoAdd);
         }

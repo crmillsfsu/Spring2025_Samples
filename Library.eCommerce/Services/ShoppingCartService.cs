@@ -6,6 +6,7 @@ namespace Library.eCommerce.Services
     {
         private ProductServiceProxy _prodSvc = ProductServiceProxy.Current;
         private List<Item> items;
+        public double CheckoutPrice;
         public List<Item> CartItems
         {
             get
@@ -28,6 +29,9 @@ namespace Library.eCommerce.Services
         private ShoppingCartService() { 
             items = new List<Item>();
         }
+
+        public void ClearList() { items = new List<Item>(); }
+        //Sets the list to an empty, new, list
 
         public Item? AddOrUpdate(Item item)
         {
