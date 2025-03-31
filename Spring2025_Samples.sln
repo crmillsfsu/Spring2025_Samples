@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring2025_Samples", "Sprin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.eCommerce", "Library.eCommerce\Library.eCommerce.csproj", "{B113257B-6F53-4B61-B796-F733AAF021AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui.eCommerce", "Maui.eCommerce\Maui.eCommerce.csproj", "{0335E701-5D1D-449A-8615-BDC200AE7C4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maui.eCommerce", "Maui.eCommerce\Maui.eCommerce.csproj", "{0335E701-5D1D-449A-8615-BDC200AE7C4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,7 +16,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8B000EBC-E610-4D5F-ABEE-E9CECF89C2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B000EBC-E610-4D5F-ABEE-E9CECF89C2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B000EBC-E610-4D5F-ABEE-E9CECF89C2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B000EBC-E610-4D5F-ABEE-E9CECF89C2D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B113257B-6F53-4B61-B796-F733AAF021AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

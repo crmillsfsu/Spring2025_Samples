@@ -32,7 +32,7 @@ public partial class InventoryManagementView : ContentPage
     }
 
     private void EditClicked(object sender, EventArgs e)
-    {//TODO: ?????????????
+    {
         var productId = (BindingContext as InventoryManagementViewModel)?.SelectedProduct?.Id;
         Shell.Current.GoToAsync($"//Product?productId={productId}");
     }

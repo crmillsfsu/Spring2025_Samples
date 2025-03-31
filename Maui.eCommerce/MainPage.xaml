@@ -12,7 +12,8 @@
             Text="Inventory Management"
                 Clicked="InventoryClicked"/>
             <Button
-            Text="Shop"/>
+            Text="Shop"
+                Clicked="ShopClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 
