@@ -1,9 +1,12 @@
 ﻿using Library.eCommerce.DTO;
 using Library.eCommerce.Models;
+using Library.eCommerce.Utilities;
+using Newtonsoft.Json;
 using Spring2025_Samples.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,17 +63,22 @@ namespace Library.eCommerce.Services
 
         public Item AddOrUpdate(Item item)
         {
+            //CALL THE WEB SERVICE
+            var response = new WebRequestHandler().Post("/Inventory", item).Result;
+            var newItem = JsonConvert.DeserializeObject<Item>(response);
+            if(newItem == null)
+            {
+                return item;
+            }
             if(item.Id == 0)
             {
-                item.Id = LastKey + 1;
-                item.Product.Id = item.Id;
-                Products.Add(item);
+                Products.Add(newItem);
             } else
             {
                 var existingItem = Products.FirstOrDefault(p => p.Id == item.Id);
                 var index = Products.IndexOf(existingItem);
                 Products.RemoveAt(index);
-                Products.Insert(index,new Item(item));
+                Products.Insert(index,new Item(newItem));
             }
 
 
@@ -84,10 +92,12 @@ namespace Library.eCommerce.Services
                 return null;
             }
 
+            var result = new WebRequestHandler().Delete($"/Inventory/{id}").Result;
+
             Item? product = Products.FirstOrDefault(p => p.Id == id);
             Products.Remove(product);
 
-            return product;
+            return JsonConvert.DeserializeObject<Item>(result);
         }
 
         public Item? GetById(int id)

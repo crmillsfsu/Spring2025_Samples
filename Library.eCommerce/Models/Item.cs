@@ -18,8 +18,6 @@ namespace Library.eCommerce.Models
         public int QuantityToAdd { get; set; } = 1;
 
 
-        public ICommand? AddCommand { get; set; }
-
         public override string ToString()
         {
             return $"{Product} Quantity:{Quantity}";
@@ -36,22 +34,16 @@ namespace Library.eCommerce.Models
         {
             Product = new ProductDTO();
             Quantity = 0;
-
-            AddCommand = new Command(DoAdd);
         }
-
-        private void DoAdd()
-        {
-            ShoppingCartService.Current.AddOrUpdate(this);
-        }
-
         public Item(Item i)
         {
             Product = new ProductDTO(i.Product);
             Quantity = i.Quantity;
             Id = i.Id;
-
-            AddCommand = new Command(DoAdd);
         }
+
+        
+
+        
     }
 }
