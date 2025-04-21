@@ -10,7 +10,7 @@ namespace Library.eCommerce.Utilities
     public class WebRequestHandler
     {
         private string host = "localhost";
-        private string port = "7009";
+        private string port = "5149";
         private HttpClient Client { get; }
         public WebRequestHandler()
         {
@@ -18,7 +18,7 @@ namespace Library.eCommerce.Utilities
         }
         public async Task<string> Get(string url)
         {
-            var fullUrl = $"https://{host}:{port}{url}";
+            var fullUrl = $"http://{host}:{port}{url}";
             try
             {
                 using (var client = new HttpClient())
@@ -39,7 +39,7 @@ namespace Library.eCommerce.Utilities
 
         public async Task<string> Delete(string url)
         {
-            var fullUrl = $"https://{host}:{port}{url}";
+            var fullUrl = $"http://{host}:{port}{url}";
             try
             {
                 using (var client = new HttpClient())
@@ -70,7 +70,7 @@ namespace Library.eCommerce.Utilities
 
         public async Task<string> Post(string url, object obj)
         {
-            var fullUrl = $"https://{host}:{port}{url}";
+            var fullUrl = $"http://{host}:{port}{url}";
             using (var client = new HttpClient())
             {
                 using(var request = new HttpRequestMessage(HttpMethod.Post, fullUrl))

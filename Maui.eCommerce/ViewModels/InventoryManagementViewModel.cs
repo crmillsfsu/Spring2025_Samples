@@ -35,11 +35,20 @@ namespace Maui.eCommerce.ViewModels
             NotifyPropertyChanged(nameof(Products));
         }
 
+        public async Task<bool> Search()
+        {
+            await _svc.Search(Query);
+            NotifyPropertyChanged(nameof(Products));
+            return true;
+        }
+
         public ObservableCollection<Item?> Products
         {
             get
             {
-                var filteredList = _svc.Products.Where(p => p?.Product?.Name?.ToLower().Contains(Query?.ToLower() ?? string.Empty) ?? false);
+                var filteredList = _svc.Products
+                    .Where(p => p?.Product?.Name?.ToLower()
+                    .Contains(Query?.ToLower() ?? string.Empty) ?? false);
                 return new ObservableCollection<Item?>(filteredList);
             }
         }
