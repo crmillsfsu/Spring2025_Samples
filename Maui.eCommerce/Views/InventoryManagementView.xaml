@@ -45,6 +45,10 @@
       Clicked="DeleteClicked"
       />
         <Button
+            Text="Change Filter Mode"
+            Clicked="ChangeFilterClicked"
+            />
+        <Button
             Text="Go Back"
             Clicked="CancelClicked"
             />

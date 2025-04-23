@@ -1,4 +1,5 @@
-﻿using Library.eCommerce.Services;
+﻿using Library.eCommerce.Models;
+using Library.eCommerce.Services;
 using Spring2025_Samples.Models;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ namespace Maui.eCommerce.ViewModels
 {
     public class InventoryManagementViewModel : INotifyPropertyChanged
     {
-        public Product? SelectedProduct { get; set; }
+        public Item? SelectedProduct { get; set; }
         public string? Query { get; set; }
+
+        public string mode = "Name";
+
         private ProductServiceProxy _svc = ProductServiceProxy.Current;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -34,20 +38,49 @@ namespace Maui.eCommerce.ViewModels
             NotifyPropertyChanged(nameof(Products));
         }
 
-        public ObservableCollection<Product?> Products
+        public ObservableCollection<Item?> Products
         {
             get
             {
-                var filteredList = _svc.Products.Where(p => p?.Name?.ToLower().Contains(Query?.ToLower() ?? string.Empty) ?? false);
-                return new ObservableCollection<Product?>(filteredList);
+                var filteredList = _svc.Products.Where(p => p?.Product?.Name?.ToLower().Contains(Query?.ToLower() ?? string.Empty) ?? false);
+
+                if (mode == "Name")
+                {
+                    filteredList = filteredList.OrderBy(I => I?.Product?.Name);
+                }
+                else
+                {
+                    filteredList = filteredList.OrderBy(I => I?.Price);
+                }
+
+                return new ObservableCollection<Item?>(filteredList);
             }
+            
         }
 
-        public Product? Delete()
+        public void SortList()
+        {
+            changeFilterMode();
+            NotifyPropertyChanged(nameof(Products));
+        }
+
+        public Item? Delete()
         {
             var item = _svc.Delete(SelectedProduct?.Id ?? 0);
             NotifyPropertyChanged("Products");
             return item;
+        }
+
+        private void changeFilterMode()
+        {
+            if (mode == "Name")
+            {
+                mode = "Price";
+            }
+            else
+            {
+                mode = "Name";
+            }
         }
     }
 }

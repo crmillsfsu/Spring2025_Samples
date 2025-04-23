@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.eCommerce.Views.ShoppingLists"
+             Title="ShoppingLists">
+    <VerticalStackLayout>
+        <Label 
+            Text="Change Cart!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        
+        <ListView
+            ItemsSource="{Binding arrayOfShoppingCarts}"
+            SelectedItem="{Binding SelectedCart}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10*"/>
+                            </Grid.ColumnDefinitions>
+                    <HorizontalStackLayout>
+                        <Label Text="Cart #: " />
+                        <Label Text="{Binding Id}" />
+                    </HorizontalStackLayout>
+                        
+                        </Grid>
+
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Add New Cart" Clicked="AddNewShoppingCart"/>
+        <Button Text="Switch By Selected Cart" Clicked="switchShoppingCart"/>
+        <Button Text=" Go Back to Shopping Cart" Clicked="GoBackToShoppingCart"/>
+    </VerticalStackLayout>
+</ContentPage>

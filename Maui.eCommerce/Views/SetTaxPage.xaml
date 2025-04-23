@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.eCommerce.Views.SetTaxPage"
+             Title="SetTaxPage">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome, Please Set your tax here!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Entry
+            Text="{Binding tax_input}"
+            Placeholder="Enter tax percentage"
+            Keyboard="Numeric"
+            />
+        <Button
+            Text="Set Tax"
+            VerticalOptions="Center" 
+            Clicked = "SetTaxClicked"
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
