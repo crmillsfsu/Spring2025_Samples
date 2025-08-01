@@ -6,6 +6,7 @@
              NavigatedTo="ContentPage_NavigatedTo"
              >
     <VerticalStackLayout>
+        <!-- Search Bar and Button -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
@@ -14,6 +15,12 @@
             <Entry Text="{Binding Query}" Grid.Column="0"/>
             <Button Text="Search" Grid.Column="1" Clicked="SearchClicked"/>
         </Grid>
+
+        <!-- Sorting Buttons (now below the search bar) -->
+        <HorizontalStackLayout>
+            <Button Text="Sort by Name" Clicked="SortByNameClicked"/>
+            <Button Text="Sort by Price" Clicked="SortByPriceClicked"/>
+        </HorizontalStackLayout>
         <ListView
             ItemsSource="{Binding Path=Products}"
             SelectedItem="{Binding SelectedProduct}"
@@ -25,11 +32,9 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="10*"/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Text="{Binding Display}"/>
-                            <Button Grid.Column="1" Text="Edit"/>
-                            <Button Grid.Column="2" Text="Delete"/>
+                            <Label Grid.Column="1" Text="{Binding Price, StringFormat='${0:F2}'}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

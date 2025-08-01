@@ -1,5 +1,6 @@
 using Library.eCommerce.Services;
 using Maui.eCommerce.ViewModels;
+using static Maui.eCommerce.ViewModels.InventoryManagementViewModel;
 
 namespace Maui.eCommerce.Views;
 
@@ -41,4 +42,23 @@ public partial class InventoryManagementView : ContentPage
     {
         (BindingContext as InventoryManagementViewModel)?.Search();
     }
+
+    private void SortByNameClicked(object sender, EventArgs e)
+    {
+        var vm = BindingContext as InventoryManagementViewModel;
+        if (vm != null)
+        {
+            vm.SortMode = InventorySortMode.Name;
+        }
+    }
+
+    private void SortByPriceClicked(object sender, EventArgs e)
+    {
+        var vm = BindingContext as InventoryManagementViewModel;
+        if (vm != null)
+        {
+            vm.SortMode = InventorySortMode.Price;
+        }
+    }
+
 }

@@ -16,17 +16,14 @@ namespace Library.eCommerce.Services
     public class ProductServiceProxy
     {
         private ProductServiceProxy()
-        {
-            var productPayload = new WebRequestHandler().Get("/Inventory").Result;
-            Products = JsonConvert.DeserializeObject<List<Item>>(productPayload) ?? new List<Item?>();
+        {           
             
-            
-            //Products = new List<Item?>
-            //{
-            //    new Item{ Product = new ProductDTO{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 1 },
-            //    new Item{ Product = new ProductDTO{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 2 },
-            //    new Item{ Product = new ProductDTO{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 3 }
-            //};
+            Products = new List<Item?>
+            {
+                new Item{ Product = new ProductDTO{Id = 1, Name ="F", Price = 5.00m}, Id = 1, Quantity = 1, Price = 5.00m },
+                new Item{ Product = new ProductDTO{Id = 2, Name ="Z", Price = 1.00m}, Id = 2 , Quantity = 2, Price = 1.00m },
+                new Item{ Product = new ProductDTO{Id = 3, Name ="A", Price = 9.99m}, Id=3 , Quantity = 3 , Price = 9.99m}
+            };
         }
 
         private static ProductServiceProxy? instance;
@@ -51,32 +48,49 @@ namespace Library.eCommerce.Services
 
         public async Task<IEnumerable<Item?>> Search(string? query)
         {
-            if (query == null)
+            if (string.IsNullOrWhiteSpace(query))
             {
-                return new List<Item>();
+                return Products;
             }
-            var response = await new WebRequestHandler().Post("/Inventory/Search", new QueryRequest { Query = query});
-            Products = JsonConvert.DeserializeObject<List<Item?>>(response) ?? new List<Item?>();
-            return Products;
+
+            var results = Products
+                .Where(item => item != null &&
+                               item.Product != null &&
+                               !string.IsNullOrWhiteSpace(item.Product.Name) &&
+                               item.Product.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return results;
         }
+
         public Item AddOrUpdate(Item item)
         {
-            //CALL THE WEB SERVICE
-            var response = new WebRequestHandler().Post("/Inventory", item).Result;
-            var newItem = JsonConvert.DeserializeObject<Item>(response);
-            if(newItem == null)
+            
+            if(item == null)
             {
                 return item;
             }
-            if(item.Id == 0)
+            if (item.Id == 0)
             {
-                Products.Add(newItem);
-            } else
+                int newId = Products.Any() ? Products.Max(p => p?.Id ?? 0) + 1 : 1;
+                item.Id = newId;
+                if (item.Product != null)
+                {
+                    item.Product.Id = newId;
+                    item.Product.Price = item.Price;
+                }
+                Products.Add(item);
+            }
+            else
             {
                 var existingItem = Products.FirstOrDefault(p => p.Id == item.Id);
                 var index = Products.IndexOf(existingItem);
+                if (item.Product != null)
+                {
+                    item.Product.Price = item.Price;
+                }
                 Products.RemoveAt(index);
-                Products.Insert(index,new Item(newItem));
+                Products.Insert(index,new Item(item));
             }
 
 
@@ -90,12 +104,11 @@ namespace Library.eCommerce.Services
                 return null;
             }
 
-            var result = new WebRequestHandler().Delete($"/Inventory/{id}").Result;
 
             Item? product = Products.FirstOrDefault(p => p.Id == id);
             Products.Remove(product);
 
-            return JsonConvert.DeserializeObject<Item>(result);
+            return product;
         }
 
         public Item? GetById(int id)

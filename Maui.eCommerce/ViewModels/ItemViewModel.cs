@@ -13,10 +13,22 @@ namespace Maui.eCommerce.ViewModels
     {
         public Item Model { get; set; }
 
+        public int QuantityToAdd { get; set; } = 1;
+        public decimal Price
+        {
+            get => Model?.Price ?? 0;
+            set
+            {
+                if (Model != null)
+                    Model.Price = value;
+            }
+        }
+
+
         public ICommand? AddCommand { get; set; }
         private void DoAdd()
         {
-            ShoppingCartService.Current.AddOrUpdate(Model);
+            ShoppingCartService.Current.AddOrUpdate2(Model, QuantityToAdd);
         }
 
         void SetupCommands()

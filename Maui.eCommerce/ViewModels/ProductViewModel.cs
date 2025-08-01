@@ -11,6 +11,16 @@ namespace Maui.eCommerce.ViewModels
 {
     public class ProductViewModel
     {
+        public decimal Price
+        {
+            get => Model?.Price ?? 0;
+            set
+            {
+                if (Model != null)
+                    Model.Price = value;
+            }
+        }
+
         private Item? cachedModel { get; set; }
         public string? Name { 
             get

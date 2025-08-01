@@ -10,7 +10,7 @@ namespace Library.eCommerce.Utilities
     public class WebRequestHandler
     {
         private string host = "localhost";
-        private string port = "5149";
+        private string port = "7009";
         private HttpClient Client { get; }
         public WebRequestHandler()
         {
@@ -18,7 +18,7 @@ namespace Library.eCommerce.Utilities
         }
         public async Task<string> Get(string url)
         {
-            var fullUrl = $"http://{host}:{port}{url}";
+            var fullUrl = $"https://{host}:{port}{url}";
             try
             {
                 using (var client = new HttpClient())
@@ -28,7 +28,8 @@ namespace Library.eCommerce.Utilities
                         .ConfigureAwait(false);
                     return response;
                 }
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
 
             }
@@ -39,7 +40,7 @@ namespace Library.eCommerce.Utilities
 
         public async Task<string> Delete(string url)
         {
-            var fullUrl = $"http://{host}:{port}{url}";
+            var fullUrl = $"https://{host}:{port}{url}";
             try
             {
                 using (var client = new HttpClient())
@@ -70,21 +71,21 @@ namespace Library.eCommerce.Utilities
 
         public async Task<string> Post(string url, object obj)
         {
-            var fullUrl = $"http://{host}:{port}{url}";
+            var fullUrl = $"https://{host}:{port}{url}";
             using (var client = new HttpClient())
             {
-                using(var request = new HttpRequestMessage(HttpMethod.Post, fullUrl))
+                using (var request = new HttpRequestMessage(HttpMethod.Post, fullUrl))
                 {
                     var json = JsonConvert.SerializeObject(obj);
-                    using(var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
+                    using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
                     {
                         request.Content = stringContent;
 
-                        using(var response = await client
+                        using (var response = await client
                             .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                             .ConfigureAwait(false))
                         {
-                            if(response.IsSuccessStatusCode)
+                            if (response.IsSuccessStatusCode)
                             {
                                 return await response.Content.ReadAsStringAsync();
                             }

@@ -20,6 +20,52 @@ namespace Maui.eCommerce.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public enum InventorySortMode
+        {
+            Name,
+            Price
+        }
+
+        private InventorySortMode _sortMode = InventorySortMode.Name;
+        public InventorySortMode SortMode
+        {
+            get => _sortMode;
+            set
+            {
+                if (_sortMode != value)
+                {
+                    _sortMode = value;
+                    NotifyPropertyChanged(nameof(Products));
+                }
+            }
+        }
+
+        public ObservableCollection<Item?> Products
+        {
+            get
+            {
+                IEnumerable<Item?> filteredList = _svc.Products
+                    .Where(p => (p?.Quantity ?? 0) > 0) 
+                    .Where(p => p?.Product?.Name?.ToLower()
+                    .Contains(Query?.ToLower() ?? string.Empty) ?? false);
+
+                switch (SortMode)
+                {
+                    case InventorySortMode.Price:
+                        filteredList = filteredList.OrderBy(p => p?.Price);
+                        break;
+                    default:
+                        filteredList = filteredList.OrderBy(p => p?.Product?.Name);
+                        break;
+                }
+
+                return new ObservableCollection<Item?>(filteredList);
+            }
+        }
+
+
+
+
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (propertyName is null)
@@ -41,18 +87,6 @@ namespace Maui.eCommerce.ViewModels
             NotifyPropertyChanged(nameof(Products));
             return true;
         }
-
-        public ObservableCollection<Item?> Products
-        {
-            get
-            {
-                var filteredList = _svc.Products
-                    .Where(p => p?.Product?.Name?.ToLower()
-                    .Contains(Query?.ToLower() ?? string.Empty) ?? false);
-                return new ObservableCollection<Item?>(filteredList);
-            }
-        }
-
         public Item? Delete()
         {
             var item = _svc.Delete(SelectedProduct?.Id ?? 0);
